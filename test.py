@@ -70,7 +70,7 @@ class FastaTest (unittest.TestCase):
 		self.assertEqual (res, tools.fasta_to_sequence(tf))
 	# -------------------------
 
-class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
+class ReturnPeptideTest (unittest.TestCase, NucleotideStringTestCase):
 	""" Checked rna to peptide transformation """
 	def setUp (self):
 		self.test_method = aa.return_peptide
@@ -86,13 +86,6 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 		result = []
 		for n in range (len(rna)):
 			self.assertEqual (p[n], aa.return_peptide(rna[n]))
-			
-	@unittest.skip ('Not for this method')		
-	def testStartCodonDetect (self):
-		""" Should skip all codons before start codon """
-		p = "MA"
-		rna = "GCCUUCAUGGCA"
-		self.assertEqual (p, aa.return_peptide(rna))
 		
 	def testStopCodonDetect (self):
 		""" Should stop when meet stop codon """
@@ -104,9 +97,38 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 		""" Should work fine with sequences /3 != 0 """
 		self.assertEqual ("M", aa.return_peptide("AUGAA"))
 		
-
+class TranscriptionTest (unittest.TestCase, NucleotideStringTestCase):
+	def setUp (self):
+		self.testing_method = aa.transcription
 		
+	def testStartCodonDetect (self):
+		""" Should skip all codons before start codon """
+		p = "MA"
+		rna = "GCCUUCAUGGCA"
+		self.assertEqual (p, aa.transcription(rna))
 
+	def testGivenRNA(self):
+		"""Should not contain T"""
+		self.assertRaises (dna.InvalidSequenceError, aa.transcription, 'ACGT')
+		
+class OpenFrameDetectionTest (unittest.TestCase, NucleotideStringTestCase):
+	def setUp (self):
+		self.testing_method = dna.count_nucleotides
+		
+	def testNoStartCodon (self):
+		""" Should return empty array """
+		self.assertEqual (aa.get_orf(''), [])
+		self.assertEqual (aa.get_orf ('UGAGCAGACAACCUUCAAAAA'), [])
+		
+	def testNoStopCodon (self):
+		""" Should not work with no stop codon if start codon was in the sequence """
+		self.assertRaises (aa.NoStopCodonError, aa.get_orf, "AUGAAAGGUAUG")
+		
+	def testRightAnswer (self):
+		""" should return known sequence """
+		rna = 'AUGAAAGGUAUGUGA'
+		result = [[0,12], [9, 12]]
+		self.assertEqual (result, aa.get_orf(rna))
 		
 	
 		
