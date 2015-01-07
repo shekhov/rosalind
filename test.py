@@ -3,6 +3,7 @@ import dna
 import aa
 import tools
 import tasks
+from collections import Counter
 
 
 NUCLEOTIDES = "ACTGU"
@@ -159,14 +160,22 @@ class ORF_TestCase (unittest.TestCase):
 	def testFileExistFailed (self):
 		""" File should exist """
 		self.assertRaises (tools.InvalidFileLocationError, tasks.ORF, 'not a place')
+
 	def testKnownResult (self):
 		"""Example from Rosalind"""
 		known_r = ['MLLGSFRLIPKETLIQVAGSSPCNLS', 'M', 'MGMTPRLGLESLLE', 'MTPRLGLESLLE']
 		loc = 'test_files/orf_test.txt'
 		result = tasks.ORF(loc)
-		print (result)
 		for r in known_r:
 			self.assertIn (r, result)
+
+	def testMultipleResult (self):
+		""" If result was already made, do not duplicate it"""
+		loc = 'test_files/orf_test.txt'
+		res = tasks.ORF(loc)
+		this_result = Counter(res)
+		for r in this_result:
+			self.assertEqual(1, this_result[r])
 		
 		
 if __name__  == "__main__":

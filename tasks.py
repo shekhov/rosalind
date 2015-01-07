@@ -2,6 +2,7 @@
 import aa
 import dna
 import tools
+from collections import Counter
 
 def ORF (fasta_file_loc):
 	""" 
@@ -14,5 +15,8 @@ def ORF (fasta_file_loc):
 	dna.isNucleotide(DNA)
 	RNA = dna.dnaToRna(DNA)
 	RNA_2 = dna.dnaToRna(tools.reverseSequence(DNA))
-	peptides = aa.translation(RNA) +aa.translation(RNA_2)
+	temp_result = aa.translation(RNA) +aa.translation(RNA_2)
+	peptides = []
+	for p in Counter(temp_result):
+		peptides.append(p)
 	return peptides
