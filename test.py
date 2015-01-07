@@ -77,10 +77,22 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 	def testReturningValue (self):
 		""" Should return known sequences """
 		p = ["MAKR", "MDNL"]
-		rna = ["", ""]
+		rna = ["AUGGCAAAAAGA", "AUGGACAACCUU"]
 		result = []
 		for n in range (len(rna)):
 			self.assertEqual (p[n], aa.return_peptide(rna[n]))
+			
+	def testStartCodonDetect (self):
+		""" Should skip all codons before start codon """
+		p = "MA"
+		rna = "GCCUUCAUGGCA"
+		self.assertEqual (p, aa.return_peptide(rna))
+		
+	def testStopCodonDetect (self):
+		""" Should stop when meet stop codon """
+		p = "M"
+		rna = "AUGUGAGCA"
+		self.assertEqual (p, aa.return_peptide(rna))
 		
 	
 		
