@@ -8,18 +8,6 @@ NUCLEOTIDES = "ACTGU"
 TEST_FASTA_LOC = 'fasta_test.txt'
 TEST_FASTA_STRING = ">Rosalind_1497\nGAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGACGATCTGTCTTTTTAATA\nAGCCAGAAGGGGTCTCTTAAAGCGCAAGTATTCAGCGGTTTTTCCATTGGCTGCACCTCG\nAAGCGGCACCTAGTCGAGCCTCCCACCCTTATCTTGAACTGAACCAGAGTCCATGGCCGT\nGGTCGTTAGGGGACTATGGAGACCGCTTCATGGGGAGGGAAAACGTTTTGCTATGTACTG\nGGTGCTGTTTTCGGAGTCGTGGGAAGAGACATTTACAAACGTGGCAAAAGCTCTCATGTG\nGCTCCATGTAGGCGTCCAGTTCTCGACATTTCAGTACTCAACGGTCTGCTTCGTTCCGGG\nCAATCTCTTTAGACCCAGCGGGGTCTTATCATCGCGTTTGAAGACATTCCGTGGAAGGGG\nGCGGTCTCGGGAGGATATCGCCTGGGATGGTCTAGCCCGGAGACGTATCTCTGTAGCTAC\nAGAGATACGTCTCCGGGCTAGACCATCGCCCGTTCTAACGATACCCGCGAAGGAAATTAA\nGTACGAGCTTCTGGATATAGATGTTCGTTTCTTCTTATCCCTATGACGTCTCTCATGTAA\nCCGATACTGTTTCCGCTATTGATGTTTACCTGGATAAAGTTTCGTGCCTAGACTTTTAGG\nGGACTCGGCTCCTGTCCCCACAGCCGGTATGAGAAGAGCTCATAAACTCGACAACATCAA\nTGATTCATCTAACTGGGTATTATCAGGTCTGCGTAACCTTTGAGCAATTCGCATGTAGGT\nCTATGGTCGCTCTAGTCCACACGCGCTATGCGCAACACTAGCCCTCGCGGTGTTGCCATT\nGACCGCCTCCAACGCATCCTCATCTGTCCCCGCTCCTGCATTCCGGAACCCAACAAGCTT\nTCAAGATGCATTTTAGCTCAGCTGCTGGGCGATAAACGTCTCTCATTGAGTG\n"
 
-class CountNucleotidesTest (unittest.TestCase):
-
-	def testArray(self):
-		""" count_nucleotides should return an array with 4 numbers """
-		self.assertEqual (4, len(dna.count_nucleotides("")))
-	
-	def testResult(self):
-		""" count_nucleotides should return right amount of nucleotides """
-		sequence = "AAATTTTGGGGCCCCC"
-		result = [3, 4, 4, 5]
-		self.assertEqual (result, dna.count_nucleotides(sequence))
-
 class NucleotideStringTestCase:
 	# All methods working with sequences of DNA and RNA should be tested here
 	test_method = None
@@ -34,10 +22,20 @@ class NucleotideStringTestCase:
 	def testT_or_U (self):
 		""" The sequence should not contain both Thymine and Uracil """
 		self.assertRaises (dna.InvalidSequenceError, self.test_method, NUCLEOTIDES)
-		
-class DNAStringCheckFailed (unittest.TestCase, NucleotideStringTestCase):
+
+class CountNucleotidesTest (unittest.TestCase, NucleotideStringTestCase):
 	def setUp (self):	
 		self.test_method = dna.count_nucleotides
+		
+	def testArray(self):
+		""" count_nucleotides should return an array with 4 numbers """
+		self.assertEqual (4, len(dna.count_nucleotides("ATGC")))
+	
+	def testResult(self):
+		""" count_nucleotides should return right amount of nucleotides """
+		sequence = "AAATTTTGGGGCCCCC"
+		result = [3, 4, 4, 5]
+		self.assertEqual (result, dna.count_nucleotides(sequence))
 		
 class DnaToRnaFailed (unittest.TestCase):
 	def testT_or_U (self):
@@ -66,6 +64,17 @@ class FastaTest (unittest.TestCase):
 		res = 'GAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGACGATCTGTCTTTTTAATAAGCCAGAAGGGGTCTCTTAAAGCGCAAGTATTCAGCGGTTTTTCCATTGGCTGCACCTCG'
 		self.assertEqual (res, tools.fasta_to_sequence(tf))
 	# -------------------------
+
+class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
+	""" Checked rna to peptide transformation """
+	def setUp (self):
+		self.test_method = return_peptide
+		
+	def isRNAgiven (self):
+		"""Should not contain T"""
+		self.assertRaises (dna.InvalidSequenceError, aa.return_peptide, 'ACGT')
+		
+	
 		
 
 		
