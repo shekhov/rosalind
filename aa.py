@@ -40,7 +40,8 @@ def return_peptide (RNA):
 	
 def get_orf (RNA):
 	""" Return array with indexes of open frames """
-	dna.isNucleotide(RNA)
+	pass
+	#dna.isNucleotide(RNA)
 
 def transcription (RNA):
 	""" transform rna to corresponding peptides, start-stop codon dependand """

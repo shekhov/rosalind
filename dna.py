@@ -8,10 +8,10 @@ class InvalidSequenceError (DNA_Error): pass
 NUCLEOTIDES = "ATGCU"
 N_PATTERN = '[^ATUGC]'
 
-def isNucleotide (sequence): pass
-	#if not sequence.isupper(): raise InvalidCharacterError
-	#if 'T' in sequence and 'U' in sequence: raise InvalidSequenceError
-	#if re.search (N_PATTERN, sequence):	raise InvalidSequenceError
+def isNucleotide (sequence): #pass
+	if not sequence.isupper(): raise InvalidCharacterError
+	if 'T' in sequence and 'U' in sequence: raise InvalidSequenceError
+	if re.search (N_PATTERN, sequence):	raise InvalidSequenceError
 
 
 

@@ -10,7 +10,7 @@ TEST_FASTA_STRING = ">Rosalind_1497\nGAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGAC
 
 class NucleotideStringTestCase:
 	# All methods working with sequences of DNA and RNA should be tested here
-	test_method = None
+	#test_method = None
 	def testUpperCase (self):
 		""" All letters should be in uppercase """
 		self.assertRaises (dna.InvalidCharacterError, self.test_method, "acgc")
@@ -99,7 +99,7 @@ class ReturnPeptideTest (unittest.TestCase, NucleotideStringTestCase):
 		
 class TranscriptionTest (unittest.TestCase, NucleotideStringTestCase):
 	def setUp (self):
-		self.testing_method = aa.transcription
+		self.test_method = aa.transcription
 		
 	def testStartCodonDetect (self):
 		""" Should skip all codons before start codon """
@@ -112,9 +112,9 @@ class TranscriptionTest (unittest.TestCase, NucleotideStringTestCase):
 		self.assertRaises (dna.InvalidSequenceError, aa.transcription, 'ACGT')
 		
 class OpenFrameDetectionTest (unittest.TestCase, NucleotideStringTestCase):
-	def setUp (self):
-		self.testing_method = dna.count_nucleotides
-		
+	def setUp(self):
+		self.test_method = aa.get_orf
+
 	def testNoStartCodon (self):
 		""" Should return empty array """
 		self.assertEqual (aa.get_orf(''), [])
