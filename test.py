@@ -16,12 +16,13 @@ class NucleotideStringTestCase:
 		self.assertRaises (dna.InvalidCharacterError, self.test_method, "acgc")
 			
 	def testNucleotides (self):
-		""" count_nucleotides should work only with 5 letters: A T G C U """
-		self.assertRaises (dna.InvalidSequenceError, self.test_method, 'R')
+		""" should work only with 5 letters: A T G C U """
+		self.assertRaises (dna.InvalidSequenceError, self.test_method, 'RFK')
 
 	def testT_or_U (self):
 		""" The sequence should not contain both Thymine and Uracil """
 		self.assertRaises (dna.InvalidSequenceError, self.test_method, NUCLEOTIDES)
+		self.assertRaises (dna.InvalidSequenceError, self.test_method, "TTTCCCUUU")
 
 class CountNucleotidesTest (unittest.TestCase, NucleotideStringTestCase):
 	def setUp (self):	
@@ -41,6 +42,10 @@ class DnaToRnaFailed (unittest.TestCase):
 	def testT_or_U (self):
 		""" The sequence should not contain both Thymine and Uracil """
 		self.assertRaises (dna.InvalidSequenceError, dna.dnaToRna, NUCLEOTIDES)
+		
+class NucleoPatternCase (unittest.TestCase, NucleotideStringTestCase):
+	def setUp (self):
+		self.test_method = dna.isNucleotide
 		
 class FastaTest (unittest.TestCase):
 	# File To string Test
@@ -82,6 +87,7 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 		for n in range (len(rna)):
 			self.assertEqual (p[n], aa.return_peptide(rna[n]))
 			
+	@unittest.skip ('Not for this method')		
 	def testStartCodonDetect (self):
 		""" Should skip all codons before start codon """
 		p = "MA"
@@ -94,7 +100,11 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 		rna = "AUGUGAGCA"
 		self.assertEqual (p, aa.return_peptide(rna))
 		
-	
+	def testNotByThreeDevided (self):
+		""" Should work fine with sequences /3 != 0 """
+		self.assertEqual ("M", aa.return_peptide("AUGAA"))
+		
+
 		
 
 		

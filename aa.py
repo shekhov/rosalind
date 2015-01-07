@@ -1,6 +1,9 @@
 """ Script for working with amino acids and protein sequences """
 
 import tools
+import dna
+
+START_CODON = "AUG"
 
 RNA_code = {'UCC': 'S', 'AUG': 'M', 'AUA': 'I', 'CAA': 'Q', 'AUC': 'I', 'GUG': 'V', 'GAG': 'E', 'UAG': False, 'GUC': 'V', 'UCA': 'S', 'GUA': 'V', 'AUU': 'I', 'UGC': 'C', 'UCU': 'S', 'UGU': 'C', 'UAU': 'Y', 'UCG': 'S', 'GUU': 'V', 'GCU': 'A', 'UUC': 'F', 'ACA': 'T', 'AGC': 'S', 'GAA': 'E', 'AGG': 'R', 'GCG': 'A', 'GCA': 'A', 'GCC': 'A', 'GGA': 'G', 'GGC': 'G', 'ACC': 'T', 'GGG': 'G', 'UUA': 'L', 'CAU': 'H', 'CCU': 'P', 'GGU': 'G', 'UUG': 'L', 'AAA': 'K', 'UAA': False, 'CGG': 'R', 'CGA': 'R', 'CGC': 'R', 'ACU': 'T', 'CAG': 'Q', 'ACG': 'T', 'CCC': 'P', 'CAC': 'H', 'UAC': 'Y', 'CCG': 'P', 'CGU': 'R', 'AAC': 'N', 'AAU': 'N', 'CCA': 'P', 'UGA': False, 'CUU': 'L', 'AGU': 'S', 'CUC': 'L', 'GAC': 'D', 'CUA': 'L', 'CUG': 'L', 'GAU': 'D', 'UGG': 'W', 'AAG': 'K', 'AGA': 'R', 'UUU': 'F'}
 
@@ -18,4 +21,20 @@ def get_aa (tRNA):
 
 def return_peptide (RNA):
 	""" Return correspondance peptide based on given RNA """
-	pass
+	# Should work with already made sequence without stop codons. Only one peptide per call
+
+	dna.isNucleotide(RNA)
+	if 'T' in RNA: raise dna.InvalidSequenceError	
+	peptide = ""
+	id = 0
+	while id < len(RNA):
+		tRNA = RNA[id:id+3]
+		if not tRNA in RNA_code: break
+		AA = RNA_code[tRNA]
+		if AA == False: # In the case if was mistake in the previous step
+			break
+		peptide += AA
+		id += 3
+	
+	return peptide
+
