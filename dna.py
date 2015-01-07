@@ -11,9 +11,11 @@ def count_nucleotides (sequence):
 	result = [0, 0, 0, 0] # A T G C
 	
 	if 'T' and 'U' in sequence: raise InvalidSequenceError	
+	if not sequence.isupper(): raise InvalidCharacterError
+	
 	for n in sequence:
 		if n.upper() not in NUCLEOTIDES: raise InvalidSequenceError
-		if n.lower() == n: raise InvalidCharacterError
+		#if n.lower() == n: raise InvalidCharacterError
 		if n == 'A': result[0]+=1
 		elif n == 'T' or n == 'U': result[1]+=1
 		elif n == 'G': result[2]+=1
