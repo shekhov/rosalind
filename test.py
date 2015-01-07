@@ -1,7 +1,28 @@
 import unittest
 import dna
+import aa
+import tools
+
 
 NUCLEOTIDES = "ACTGU"
+TEST_FASTA_LOC = 'fasta_test.txt'
+TEST_FASTA_STRING = """>Rosalind_1497
+GAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGACGATCTGTCTTTTTAATA
+AGCCAGAAGGGGTCTCTTAAAGCGCAAGTATTCAGCGGTTTTTCCATTGGCTGCACCTCG
+AAGCGGCACCTAGTCGAGCCTCCCACCCTTATCTTGAACTGAACCAGAGTCCATGGCCGT
+GGTCGTTAGGGGACTATGGAGACCGCTTCATGGGGAGGGAAAACGTTTTGCTATGTACTG
+GGTGCTGTTTTCGGAGTCGTGGGAAGAGACATTTACAAACGTGGCAAAAGCTCTCATGTG
+GCTCCATGTAGGCGTCCAGTTCTCGACATTTCAGTACTCAACGGTCTGCTTCGTTCCGGG
+CAATCTCTTTAGACCCAGCGGGGTCTTATCATCGCGTTTGAAGACATTCCGTGGAAGGGG
+GCGGTCTCGGGAGGATATCGCCTGGGATGGTCTAGCCCGGAGACGTATCTCTGTAGCTAC
+AGAGATACGTCTCCGGGCTAGACCATCGCCCGTTCTAACGATACCCGCGAAGGAAATTAA
+GTACGAGCTTCTGGATATAGATGTTCGTTTCTTCTTATCCCTATGACGTCTCTCATGTAA
+CCGATACTGTTTCCGCTATTGATGTTTACCTGGATAAAGTTTCGTGCCTAGACTTTTAGG
+GGACTCGGCTCCTGTCCCCACAGCCGGTATGAGAAGAGCTCATAAACTCGACAACATCAA
+TGATTCATCTAACTGGGTATTATCAGGTCTGCGTAACCTTTGAGCAATTCGCATGTAGGT
+CTATGGTCGCTCTAGTCCACACGCGCTATGCGCAACACTAGCCCTCGCGGTGTTGCCATT
+GACCGCCTCCAACGCATCCTCATCTGTCCCCGCTCCTGCATTCCGGAACCCAACAAGCTT
+TCAAGATGCATTTTAGCTCAGCTGCTGGGCGATAAACGTCTCTCATTGAGTG"""
 
 class CountNucleotidesTest (unittest.TestCase):
 
@@ -35,7 +56,38 @@ class NucleotideStringTestCase:
 class DNAStringCheckFailed (unittest.TestCase, NucleotideStringTestCase):
 	def setUp (self):	
 		self.test_method = dna.count_nucleotides
+		
+class DnaToRnaFailed (unittest.TestCase):
+	def testT_or_U (self):
+		""" The sequence should not contain both Thymine and Uracil """
+		self.assertRaises (dna.InvalidSequenceError, self.test_method, NUCLEOTIDES)
+		
+class FastaTest (unittest.TestCase):
+	def testFileExistFailed (self):
+		""" File should exist """
+		self.assertRaises (tools.InvalidFileLocation, tools.file_to_string('not a place'))
 
+	def testFastaToString (self):
+		""" Should return string object without any deletion in it"""
+		result = tools.file_to_string(TEST_FASTA_LOC)
+		self.assertEqual (TEST_FASTA_STRING, result)
+
+	def testFastaFormatFailed (self):
+		""" argument should be in the fasta format """
+		self.assertRaises (tools.InvalidFastaFormatError, tools.fasta_to_sequence, 'just a string')
+		
+	def testFastaRightSequence (self):
+		""" should get right sequence from FASTA string """
+		tf = """>Rosalind_1497
+					GAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGACGATCTGTCTTTTTAATA
+					AGCCAGAAGGGGTCTCTTAAAGCGCAAGTATTCAGCGGTTTTTCCATTGGCTGCACCTCG"""
+		res = 'GAGGGATACAAGTGACAGGCGTAAAGTTGTTATAGCTAGTGACGATCTGTCTTTTTAATAAGCCAGAAGGGGTCTCTTAAAGCGCAAGTATTCAGCGGTTTTTCCATTGGCTGCACCTCG'
+		self.assertEqual (res, tools.fasta_to_sequence(tf))
+		
+	def testResultingDNAStringFailed (self):
+		""" DNA string should not have any other characters then DNA nucleotides """
+		dna = aa.get_ORF (TEST_FASTA_LOC)
+		
 
 		
 	
