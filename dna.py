@@ -22,4 +22,6 @@ def count_nucleotides (sequence):
 	return result
 	
 def dnaToRna (dna):
+	""" Replace Thymines to Uracils """
+	if 'T' and 'U' in dna: raise InvalidSequenceError		
 	return dna.replace('T', 'U')
