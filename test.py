@@ -2,6 +2,7 @@ import unittest
 import dna
 import aa
 import tools
+import tasks
 
 
 NUCLEOTIDES = "ACTGU"
@@ -153,8 +154,19 @@ class FindStopCodonTest (unittest.TestCase):
 	def testStopCodonNotInRightPlace (self):
 		""" When codon found not in the +3 position from start return False """
 		self.assertEqual(aa.find_next_stop_codon("AAAAUAGAAA"), False)
-		
-	
+
+class ORF_TestCase (unittest.TestCase):
+	def testFileExistFailed (self):
+		""" File should exist """
+		self.assertRaises (tools.InvalidFileLocationError, tasks.ORF, 'not a place')
+	def testKnownResult (self):
+		"""Example from Rosalind"""
+		known_r = ['MLLGSFRLIPKETLIQVAGSSPCNLS', 'M', 'MGMTPRLGLESLLE', 'MTPRLGLESLLE']
+		loc = 'test_files/orf_test.txt'
+		result = tasks.ORF(loc)
+		print (result)
+		for r in known_r:
+			self.assertIn (r, result)
 		
 		
 if __name__  == "__main__":
