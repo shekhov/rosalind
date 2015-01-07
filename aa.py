@@ -83,6 +83,17 @@ def get_orf (RNA):
 
 
 
-def transcription (RNA):
+def translation (RNA):
 	""" transform rna to corresponding peptides, start-stop codon dependant """
-	pass
+	result = []
+	if len(RNA) == 0: return result
+	dna.isNucleotide(RNA)
+	if "T" in RNA: raise dna.InvalidSequenceError
+
+	orf = get_orf(RNA)
+
+	for frame in orf:
+		peptide = return_peptide(RNA[frame[0]:frame[1]+3])
+		result.append(peptide)
+	return result
+

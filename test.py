@@ -97,15 +97,25 @@ class ReturnPeptideTest (unittest.TestCase, NucleotideStringTestCase):
 		""" Should work fine with sequences /3 != 0 """
 		self.assertEqual ("M", aa.return_peptide("AUGAA"))
 		
-class TranscriptionTest (unittest.TestCase, NucleotideStringTestCase):
+class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 	def setUp (self):
-		self.test_method = aa.transcription
+		self.test_method = aa.translation
 		
 	def testStartCodonDetect (self):
 		""" Should skip all codons before start codon """
 		p = "MA"
-		rna = "GCCUUCAUGGCA"
-		self.assertEqual (p, aa.transcription(rna))
+		rna = "GCC UUC AUG GCA UGA".replace(" ", "")
+		result = aa.translation(rna)[0]
+		self.assertEqual (p, result)
+
+	def testEmptyResult (self):
+		"""If empty argument, or no start codon was present return empty array"""
+		self.assertEqual(aa.translation(""), [])
+		self.assertEqual(aa.translation("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"), [])
+
+	def testNoStopCodonGiven (self):
+		"""Should raise error if no codon was present, when start codon was """
+		self.assertRaises (aa.NoStopCodonError, aa.translation, "AUGAAAGGUAUG")
 
 	def testGivenRNA(self):
 		"""Should not contain T"""
@@ -124,9 +134,9 @@ class OpenFrameDetectionTest (unittest.TestCase):
 		
 	def testRightAnswer (self):
 		""" should return known sequence """
-		rna = 'AAA AUG AAA GGU AUG UGA'
+		rna = 'AAA AUG AAA GGU AUG UGA'.replace(" ", "")
 		result = [[3,15], [12, 15]]
-		self.assertEqual (result, aa.get_orf(rna.replace(" ", "")))
+		self.assertEqual (result, aa.get_orf(rna))
 
 class FindStopCodonTest (unittest.TestCase):
 
