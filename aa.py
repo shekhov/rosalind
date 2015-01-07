@@ -12,6 +12,10 @@ AA_REV_M = {128: 'KQ', 97: 'P', 99: 'V', 131: 'M', 101: 'T', 103: 'C', 129: 'E',
 
 MASSES = [57, 71, 87, 97, 99, 101, 103, 113, 114, 115, 128, 129, 131, 137, 147, 156, 163, 186]
 
+def get_aa (tRNA):
+	""" Return aminoacid from RNA_code """
+	pass
+
 def return_peptide (RNA):
 	""" Return correspondance peptide based on given RNA """
 	pass

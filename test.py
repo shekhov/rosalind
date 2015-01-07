@@ -68,11 +68,19 @@ class FastaTest (unittest.TestCase):
 class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 	""" Checked rna to peptide transformation """
 	def setUp (self):
-		self.test_method = return_peptide
+		self.test_method = aa.return_peptide
 		
-	def isRNAgiven (self):
+	def testGivenRNA(self):
 		"""Should not contain T"""
 		self.assertRaises (dna.InvalidSequenceError, aa.return_peptide, 'ACGT')
+	
+	def testReturningValue (self):
+		""" Should return known sequences """
+		p = ["MAKR", "MDNL"]
+		rna = ["", ""]
+		result = []
+		for n in range (len(rna)):
+			self.assertEqual (p[n], aa.return_peptide(rna[n]))
 		
 	
 		
