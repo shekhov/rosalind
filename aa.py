@@ -3,7 +3,14 @@
 import tools
 import dna
 
+class AminoAcidError (Exception): pass
+class NoStopCodonError (AminoAcidError): pass
+class InvalidCodonError (AminoAcidError): pass
+
+
 START_CODON = "AUG"
+
+STOP_CODONS = ['UAG', 'UGA', 'UAA']
 
 RNA_code = {'UCC': 'S', 'AUG': 'M', 'AUA': 'I', 'CAA': 'Q', 'AUC': 'I', 'GUG': 'V', 'GAG': 'E', 'UAG': False, 'GUC': 'V', 'UCA': 'S', 'GUA': 'V', 'AUU': 'I', 'UGC': 'C', 'UCU': 'S', 'UGU': 'C', 'UAU': 'Y', 'UCG': 'S', 'GUU': 'V', 'GCU': 'A', 'UUC': 'F', 'ACA': 'T', 'AGC': 'S', 'GAA': 'E', 'AGG': 'R', 'GCG': 'A', 'GCA': 'A', 'GCC': 'A', 'GGA': 'G', 'GGC': 'G', 'ACC': 'T', 'GGG': 'G', 'UUA': 'L', 'CAU': 'H', 'CCU': 'P', 'GGU': 'G', 'UUG': 'L', 'AAA': 'K', 'UAA': False, 'CGG': 'R', 'CGA': 'R', 'CGC': 'R', 'ACU': 'T', 'CAG': 'Q', 'ACG': 'T', 'CCC': 'P', 'CAC': 'H', 'UAC': 'Y', 'CCG': 'P', 'CGU': 'R', 'AAC': 'N', 'AAU': 'N', 'CCA': 'P', 'UGA': False, 'CUU': 'L', 'AGU': 'S', 'CUC': 'L', 'GAC': 'D', 'CUA': 'L', 'CUG': 'L', 'GAU': 'D', 'UGG': 'W', 'AAG': 'K', 'AGA': 'R', 'UUU': 'F'}
 
@@ -37,12 +44,45 @@ def return_peptide (RNA):
 		id += 3
 	
 	return peptide
-	
+
+def find_next_stop_codon (RNA):
+	""" Codon (+3) dependant """
+	dna.isNucleotide(RNA)
+	id = 0
+	while id < len(RNA):
+		tRNA = RNA[id:id+3]
+		if not tRNA in RNA_code: return False
+		if RNA_code[tRNA] == False:
+			return id
+		id+= 3
+	return False
+
 def get_orf (RNA):
 	""" Return array with indexes of open frames """
-	pass
-	#dna.isNucleotide(RNA)
+	result = []
+	start_codon = RNA.find(START_CODON)
+	if start_codon == -1: return result
+
+	frame = [start_codon]
+	id = start_codon
+	while id < len(RNA):
+		stop = find_next_stop_codon(RNA[id:])
+		if not stop:
+			if len(result) == 0: raise NoStopCodonError #Exit of no stop-codon in the whole sequence
+			else: break #Exit with already one result
+		frame.append(stop + id)
+		result.append(frame)
+
+		#Next iteration
+		start_codon = RNA[id+1:].find(START_CODON)
+		if start_codon == -1: break #Exit if no more codons around
+
+		frame = [start_codon+id+1]
+		id = frame[0]
+	return result
+
+
 
 def transcription (RNA):
-	""" transform rna to corresponding peptides, start-stop codon dependand """
+	""" transform rna to corresponding peptides, start-stop codon dependant """
 	pass

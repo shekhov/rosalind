@@ -111,9 +111,7 @@ class TranscriptionTest (unittest.TestCase, NucleotideStringTestCase):
 		"""Should not contain T"""
 		self.assertRaises (dna.InvalidSequenceError, aa.transcription, 'ACGT')
 		
-class OpenFrameDetectionTest (unittest.TestCase, NucleotideStringTestCase):
-	def setUp(self):
-		self.test_method = aa.get_orf
+class OpenFrameDetectionTest (unittest.TestCase):
 
 	def testNoStartCodon (self):
 		""" Should return empty array """
@@ -126,9 +124,25 @@ class OpenFrameDetectionTest (unittest.TestCase, NucleotideStringTestCase):
 		
 	def testRightAnswer (self):
 		""" should return known sequence """
-		rna = 'AUGAAAGGUAUGUGA'
-		result = [[0,12], [9, 12]]
-		self.assertEqual (result, aa.get_orf(rna))
+		rna = 'AAA AUG AAA GGU AUG UGA'
+		result = [[3,15], [12, 15]]
+		self.assertEqual (result, aa.get_orf(rna.replace(" ", "")))
+
+class FindStopCodonTest (unittest.TestCase):
+
+	def testNoStopCodon (self):
+		""" Should return false if no stop codon found """
+		self.assertEqual(aa.find_next_stop_codon("AAAAAAAAA"), False)
+
+	def testStopCodonFound (self):
+		""" Should return right position of stop codon"""
+		pos = 3
+		self.assertEqual (aa.find_next_stop_codon("AAAUAG"), pos)
+		self.assertEqual(aa.find_next_stop_codon("AAGAAAUAGGUU"), 6)
+
+	def testStopCodonNotInRightPlace (self):
+		""" When codon found not in the +3 position from start return False """
+		self.assertEqual(aa.find_next_stop_codon("AAAAUAGAAA"), False)
 		
 	
 		
