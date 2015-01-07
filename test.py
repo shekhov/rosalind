@@ -17,23 +17,24 @@ class CountNucleotidesTest (unittest.TestCase):
 
 class NucleotideStringTestCase:
 	# All methods working with sequences of DNA and RNA should be tested here
-
+	test_method = None
 	def testUpperCase (self):
 		""" All letters should be in uppercase """
-		self.assertRaises (dna.InvalidCharacterError, test_method, "acgc")
+		self.assertRaises (dna.InvalidCharacterError, self.test_method, "acgc")
 			
 	def testNucleotides (self):
 		""" count_nucleotides should work only with 5 letters: A T G C U """
-		self.assertRaises (dna.InvalidSequenceError, test_method, 'R')
+		self.assertRaises (dna.InvalidSequenceError, self.test_method, 'R')
 
 	def testT_or_U (self):
 		""" The sequence should not contain both Thymine and Uracil """
-		self.assertRaises (dna.InvalidSequenceError, test_method, NUCLEOTIDES)
+		self.assertRaises (dna.InvalidSequenceError, self.test_method, NUCLEOTIDES)
 	
 		
 		
-class DNAStringCheckFailed (NucleotideStringTestCase, unittest.TestCase):
-	self.test_method = dna.count_nucleotides
+class DNAStringCheckFailed (unittest.TestCase, NucleotideStringTestCase):
+	def setUp (self):	
+		self.test_method = dna.count_nucleotides
 
 
 		
