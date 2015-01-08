@@ -35,7 +35,3 @@ def fasta_to_sequence (fasta_string):
 def convert_array_to_string (array, sep):
 	""" Convert given array to the string, where elements of array separates by sep """
 	return sep.join(str(element) for element in array)
-
-def reverseSequence (sequence):
-	""" Return complimentared sequence and turn it the way it will be read by peptides """
-	return(sequence[::-1].translate(str.maketrans('ACGT', 'TGCA')))

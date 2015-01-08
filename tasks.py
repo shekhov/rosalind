@@ -15,7 +15,7 @@ def ORF (fasta_file_loc):
 	dna.isNucleotide(DNA)
 	
 	RNA = dna.dnaToRna(DNA)
-	RNA_2 = dna.dnaToRna(tools.reverseSequence(DNA))
+	RNA_2 = dna.dnaToRna(dna.reverse_dna(DNA))
 	
 	temp_result = aa.translation(RNA) + aa.translation(RNA_2)
 	peptides = []

@@ -16,8 +16,11 @@ def isNucleotide (sequence): #pass
 	if 'T' in sequence and 'U' in sequence: raise InvalidSequenceError
 	if re.search (N_PATTERN, sequence):	raise InvalidSequenceError
 
-
-
+def reverse_dna (sequence):
+	""" Return complimentared sequence and turn it the way it will be read by peptides """
+	# Can be done by one line
+	return(sequence[::-1].translate(str.maketrans('ACGT', 'TGCA')))
+	
 def count_nucleotides (sequence):
 	""" Returns an array with quantity of nucleotides inside in the following order (A T G C) """
 	result = [0, 0, 0, 0] # A T G C

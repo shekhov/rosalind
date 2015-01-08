@@ -176,15 +176,22 @@ class ORF_TestCase (unittest.TestCase):
 		result = tasks.ORF(loc)
 		self.assertEqual (len(result), len(known_r))
 		for r in known_r:
-			self.assertIn (r, result)			
-	
-		# hard_r = ['MEYG', 'MAETLSDRTT', 'MMPIRKCRLS', 'MPIRKCRLS', 'M', 'MS', 'MMT', 'MT', 'MVMSL', 'TH', 'MSLTH', 'ML', 'MTAPS', 'MIHGPGSKQLSMID', 'MID', 'MSGYISRC']
-		# hard_loc = 'test_files/orf_test_hard.txt'	
+			self.assertIn (r, result)	
 			
-		# hard_result = tasks.ORF(hard_loc)
-		# self.assertEqual (len(hard_result), len (hard_r))
-		# for r in hard_r:
-			# self.assertIn (r in hard_result)
+		import some_result as s
+
+		['MEYG', 'MAETLSDRTT', 'MMPIRKCRLS', 'MPIRKCRLS', 'M', 'MS', 'MMT', 'MT', 'MVMSL', 'TH', 'MSLTH', 'ML', 'MTAPS', 'MIHGPGSKQLSMID', 'MID', 'MSGYISRC']
+		hard_loc = 'test_files/orf_test_hard.txt'	
+		hard_dna = tools.fasta_to_sequence(tools.file_to_string(hard_loc))
+		hard_temp_r = s.possible_protein_strings (hard_dna) + s.possible_protein_strings (dna.reverse_dna(hard_dna))
+		hard_r = []
+		for r in Counter (hard_temp_r):
+			hard_r.append (r)
+			
+		hard_result = tasks.ORF(hard_loc)
+		self.assertEqual (len(hard_result), len (hard_r))
+		for r in hard_r:
+			self.assertIn (r, hard_result)
 
 	def testMultipleResult (self):
 		""" If result was already made, do not duplicate it"""

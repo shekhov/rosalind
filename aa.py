@@ -55,8 +55,7 @@ def return_peptide (RNA):
 		if AA == False: # In the case if was mistake in the previous step
 			break
 		peptide += AA
-		id += 3
-	
+		id += 3	
 	return peptide
 
 
@@ -71,7 +70,7 @@ def translation (RNA):
 	orf = dna.get_orf(RNA)
 
 	for frame in orf:
-		peptide = return_peptide(RNA[frame[0]:frame[1]+3])
+		peptide = return_peptide(RNA[frame[0]:frame[1]])
 		result.append(peptide)
 	return result
 
