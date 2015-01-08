@@ -231,9 +231,19 @@ class SharedMotifCase (unittest.TestCase):
 		# at first, and with big dataset afterwords
 		pass
 		
+	def testMotifsFromSequence (self):
+		""" Should return corect items from the string """
+		known_r = ['AT', 'ATC', 'ATCA', 'TC', 'TCA', 'CA']
+		res = dna.getSetOfMotifs ('ATCA')
+		for r in known_r:
+			self.assertIn (r, res)	
+		
 	def testFileExistFailed (self):
 		""" File should exist """
 		self.assertRaises (tools.InvalidFileLocationError, tasks.FSH, 'not a place')	
+		
+class SequenceMotifCase (unittest.TestCase):
+
 		
 if __name__  == "__main__":
 	unittest.main()

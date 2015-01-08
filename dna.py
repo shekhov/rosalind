@@ -58,7 +58,6 @@ def find_next_stop_codon (RNA):
 		id+= 3
 	return False
 
-
 def get_orf (RNA):
 	""" Return array with indexes of open frames """
 	result = []
@@ -72,4 +71,14 @@ def get_orf (RNA):
 			
 		result.append ([codon, codon + next_stop])
 	return result
+	
+def getSetOfMotifs (sequence):
+	""" Return the list of all posible motifs from given sequence """
+	motifs = set()
+	for n in range (len(sequence)): 
+		l = n+1 # lenght of the motif
+		for t in range (len(sequence)-1):
+			m = sequence[t: t+l]
+			motifs.add(m)
+	return motifs
 	
