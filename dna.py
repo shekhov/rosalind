@@ -1,5 +1,6 @@
 """ DNA module. Library to work with DNA sequence """
 import re
+import copy
 import aa
 from aa import RNA_code
 from aa import START_CODON
@@ -81,4 +82,20 @@ def getSetOfMotifs (sequence):
 			m = sequence[t: t+l]
 			motifs.add(m)
 	return motifs
+	
+def findSimilarMotif (array):
+	""" Return dictionary with only motifs that are present in all strings """
+	result = {}
+	# Initializative filling 
+	start_set = getSetOfMotifs (array[0])
+	for each in start_set:
+		result[each] = True
+		
+	for s in array[1:]:
+		this_set = getSetOfMotifs(s)
+		for motif in copy.copy(result):
+			if motif not in this_set:
+				del result[motif]
+				
+	return result
 	

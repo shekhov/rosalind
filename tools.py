@@ -51,6 +51,10 @@ def fasta_to_collection (fasta_string):
 		result[name] = value.replace("\n", "")
 	return result
 	
+def getLongestKey (dic):
+	return max(dic)
+		
+	
 def convert_array_to_string (array, sep):
 	""" Convert given array to the string, where elements of array separates by sep """
 	return sep.join(str(element) for element in array)

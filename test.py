@@ -226,10 +226,8 @@ class ORF_TestCase (unittest.TestCase):
 			self.assertEqual(1, this_result[r])
 
 class SharedMotifCase (unittest.TestCase):
-	def testKnownResult (self):
-		""" Should work with Sample Dataset from Rosalind """
-		# at first, and with big dataset afterwords
-		pass
+	def setUp (self):
+		self.easy_test_set = ['GATTACA', 'TAGACCA', 'ATACA']
 		
 	def testMotifsFromSequence (self):
 		""" Should return corect items from the string """
@@ -242,7 +240,13 @@ class SharedMotifCase (unittest.TestCase):
 		""" File should exist """
 		self.assertRaises (tools.InvalidFileLocationError, tasks.FSH, 'not a place')	
 		
-class SequenceMotifCase (unittest.TestCase):
+	def testFindSimilarMotif (self):
+		""" Create the dictionary with all shared motifs in the given strings """
+		pass
+		
+	def testChooseBigestMotif (self):
+		""" Should return any of the bigest motifs"""
+		self.assertEqual (len(tools.getLongestKey(dna.findSimilarMotif(self.easy_test_set))), 2)
 
 		
 if __name__  == "__main__":
