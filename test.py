@@ -101,6 +101,11 @@ class FastaTest (unittest.TestCase):
 		r = tools.fasta_to_collection(fasta_string)
 		for v in values:
 			self.assertIn (v, r.values())
+			
+	def testFastaEmptyNameLineFailed (self):
+		""" Every name in fasta format should have the end of the string """
+		fasta_string = ">Rosalind_1\nGATTACA\n>Rosalind_2\nTAGACCA\n>Rosalind_3"
+		self.assertRaises (tools.InvalidFastaFormatError, tools.fasta_to_collection, fasta_string)
 	# --------------------------
 
 class ReturnPeptideTest (unittest.TestCase):
