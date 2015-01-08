@@ -13,23 +13,21 @@ START_CODON = "AUG"
 STOP_CODONS = ['UAG', 'UGA', 'UAA']
 
 RNA_code = {
-    'TTT': 'F',     'CTT': 'L',     'ATT': 'I',     'GTT': 'V',
-    'TTC': 'F',     'CTC': 'L',     'ATC': 'I',     'GTC': 'V',
-    'TTA': 'L',     'CTA': 'L',     'ATA': 'I',     'GTA': 'V',
-    'TTG': 'L',     'CTG': 'L',     'ATG': 'M',     'GTG': 'V',
-    'TCT': 'S',     'CCT': 'P',     'ACT': 'T',     'GCT': 'A',
-    'TCC': 'S',     'CCC': 'P',     'ACC': 'T',     'GCC': 'A',
-    'TCA': 'S',     'CCA': 'P',     'ACA': 'T',     'GCA': 'A',
-    'TCG': 'S',     'CCG': 'P',     'ACG': 'T',     'GCG': 'A',
-    'TAT': 'Y',     'CAT': 'H',     'AAT': 'N',     'GAT': 'D',
-    'TAC': 'Y',     'CAC': 'H',     'AAC': 'N',     'GAC': 'D',
-    'TAA': False,   'CAA': 'Q',     'AAA': 'K',     'GAA': 'E',
-    'TAG': False,   'CAG': 'Q',     'AAG': 'K',     'GAG': 'E',
-    'TGT': 'C',     'CGT': 'R',     'AGT': 'S',     'GGT': 'G',
-    'TGC': 'C',     'CGC': 'R',     'AGC': 'S',     'GGC': 'G',
-    'TGA': False,   'CGA': 'R',     'AGA': 'R',     'GGA': 'G',
-    'TGG': 'W',     'CGG': 'R',     'AGG': 'R',     'GGG': 'G'
-}
+			'UCC': 'S',		'AUG': 'M',		'AUA': 'I', 	'CAA': 'Q', 	'AUC': 'I',
+			'GUG': 'V', 	'GAG': 'E', 	'UAG': False, 	'GUC': 'V', 	'UCA': 'S',
+			'GUA': 'V', 	'AUU': 'I', 	'UGC': 'C', 	'UCU': 'S', 	'UGU': 'C',
+			'UAU': 'Y', 	'UCG': 'S', 	'GUU': 'V', 	'GCU': 'A', 	'UUC': 'F', 
+			'ACA': 'T', 	'AGC': 'S', 	'GAA': 'E', 	'AGG': 'R', 	'GCG': 'A', 
+			'GCA': 'A', 	'GCC': 'A', 	'GGA': 'G', 	'GGC': 'G', 	'ACC': 'T',
+			'GGG': 'G', 	'UUA': 'L', 	'CAU': 'H', 	'CCU': 'P', 	'GGU': 'G',
+			'UUG': 'L', 	'AAA': 'K', 	'UAA': False, 	'CGG': 'R', 	'CGA': 'R',
+			'CGC': 'R', 	'ACU': 'T', 	'CAG': 'Q', 	'ACG': 'T', 	'CCC': 'P',
+			'CAC': 'H', 	'UAC': 'Y', 	'CCG': 'P', 	'CGU': 'R', 	'AAC': 'N',
+			'AAU': 'N', 	'CCA': 'P', 	'UGA': False, 	'CUU': 'L', 	'AGU': 'S',
+			'CUC': 'L', 	'GAC': 'D', 	'CUA': 'L', 	'CUG': 'L', 	'GAU': 'D', 
+			'UGG': 'W', 	'AAG': 'K', 	'AGA': 'R', 	'UUU': 'F'
+			}
+
 AA_M = {'D': 115, 'E': 129, 'F': 147, 'G': 57, 'A': 71, 'C': 103, 'L': 113, 'M': 131, 'N': 114, 'H': 137, 'I': 113, 'K': 128, 'T': 101, 'V': 99, 'W': 186, 'P': 97, 'Q': 128, 'R': 156, 'S': 87, 'Y': 163}
 
 AA_EXACT_MASS = {'A': 71.03711, 'C': 103.00919, 'D': 115.02694, 'E': 129.04259, 'F': 147.06841, 'G': 57.02146, 'H': 137.05891, 'I': 113.08406, 'K': 128.09496, 'L': 113.08406, 'M': 131.04049, 'N': 114.04293, 'P': 97.05276, 'Q': 128.05858, 'R': 156.10111, 'S': 87.03203, 'T': 101.04768, 'V': 99.06841, 'W': 186.07931, 'Y': 163.06333}

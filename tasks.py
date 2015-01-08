@@ -13,8 +13,10 @@ def ORF (fasta_file_loc):
 	"""
 	DNA = tools.fasta_to_sequence(tools.file_to_string(fasta_file_loc))
 	dna.isNucleotide(DNA)
+	
 	RNA = dna.dnaToRna(DNA)
 	RNA_2 = dna.dnaToRna(tools.reverseSequence(DNA))
+	
 	temp_result = aa.translation(RNA) +aa.translation(RNA_2)
 	peptides = []
 	for p in Counter(temp_result):

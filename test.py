@@ -26,9 +26,12 @@ class NucleotideStringTestCase:
 		self.assertRaises (dna.InvalidSequenceError, self.test_method, NUCLEOTIDES)
 		self.assertRaises (dna.InvalidSequenceError, self.test_method, "TTTCCCUUU")
 
-class CountNucleotidesTest (unittest.TestCase, NucleotideStringTestCase):
-	def setUp (self):	
-		self.test_method = dna.count_nucleotides
+		
+class NucleoPatternCase (unittest.TestCase, NucleotideStringTestCase):
+	def setUp (self):
+		self.test_method = dna.isNucleotide		
+		
+class CountNucleotidesTest (unittest.TestCase):
 		
 	def testArray(self):
 		""" count_nucleotides should return an array with 4 numbers """
@@ -44,10 +47,7 @@ class DnaToRnaFailed (unittest.TestCase):
 	def testT_or_U (self):
 		""" The sequence should not contain both Thymine and Uracil """
 		self.assertRaises (dna.InvalidSequenceError, dna.dnaToRna, NUCLEOTIDES)
-		
-class NucleoPatternCase (unittest.TestCase, NucleotideStringTestCase):
-	def setUp (self):
-		self.test_method = dna.isNucleotide
+
 		
 class FastaTest (unittest.TestCase):
 	# File To string Test
@@ -72,11 +72,8 @@ class FastaTest (unittest.TestCase):
 		self.assertEqual (res, tools.fasta_to_sequence(tf))
 	# -------------------------
 
-class ReturnPeptideTest (unittest.TestCase, NucleotideStringTestCase):
-	""" Checked rna to peptide transformation """
-	def setUp (self):
-		self.test_method = aa.return_peptide
-		
+class ReturnPeptideTest (unittest.TestCase):
+	""" Checked rna to peptide transformation """		
 	def testGivenRNA(self):
 		"""Should not contain T"""
 		self.assertRaises (dna.InvalidSequenceError, aa.return_peptide, 'ACGT')
@@ -99,9 +96,7 @@ class ReturnPeptideTest (unittest.TestCase, NucleotideStringTestCase):
 		""" Should work fine with sequences /3 != 0 """
 		self.assertEqual ("M", aa.return_peptide("AUGAA"))
 		
-class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
-	def setUp (self):
-		self.test_method = aa.translation
+class TranslationTest (unittest.TestCase):
 		
 	def testStartCodonDetect (self):
 		""" Should skip all codons before start codon """
@@ -121,7 +116,7 @@ class TranslationTest (unittest.TestCase, NucleotideStringTestCase):
 
 	def testGivenRNA(self):
 		"""Should not contain T"""
-		self.assertRaises (dna.InvalidSequenceError, aa.transcription, 'ACGT')
+		self.assertRaises (dna.InvalidSequenceError, aa.translation, 'ACGT')
 		
 class OpenFrameDetectionTest (unittest.TestCase):
 
