@@ -100,8 +100,7 @@ class ReturnPeptideTest (unittest.TestCase):
 		""" Should work fine with sequences /3 != 0 """
 		self.assertEqual ("M", aa.return_peptide("AUGAA"))
 		
-class TranslationTest (unittest.TestCase):
-		
+class TranslationTest (unittest.TestCase):		
 	def testStartCodonDetect (self):
 		""" Should skip all codons before start codon """
 		p = "MA"
@@ -148,7 +147,6 @@ class OpenFrameDetectionTest (unittest.TestCase):
 		self.assertEqual (result, dna.get_orf(rna))
 
 class FindStopCodonTest (unittest.TestCase):
-
 	def testNoStopCodon (self):
 		""" Should return false if no stop codon found """
 		self.assertEqual(dna.find_next_stop_codon("AAAAAAAAA"), False)
@@ -177,8 +175,7 @@ class ORF_TestCase (unittest.TestCase):
 		self.assertEqual (len(result), len(known_r))
 		for r in known_r:
 			self.assertIn (r, result)	
-
-
+			
 		hard_loc = 'test_files/rosalind_orf_test.txt'	
 		hard_dna = tools.fasta_to_sequence(tools.file_to_string(hard_loc))
 		hard_r = ['MAYR', 'MISSLNHGLSVSYCRGWHYMYAAPLPHSVHIPIKMGAH', 'MGLPYPSLLGN', 'MPHPYLIVFTSLSRWAHTKAPAPRQFQLPKRLGYGSPIREPVPIHGPSCSHACHRNDR', 'M', 'MV', 'MHV', 'MYAAPLPHSVHIPIKMGAH', 'MSRSWTQICISMPGLGIHP', 'MGA', 'MLMQIWVQERLMILISNPFSTNW', 'MPGLGIHP', 'MLHTLCPYRVQSITNWSKKDCLLRS', 'MIRSCQTPLEPL', 'MRVNVENVKRSRSIRIGSTSWSSGTDLLVRVVLVAFDRNVS', 'MDRGWGPAPEWDSRTPASWVTETDVVPVP', 'MNAKTGHLFAAPCAKLDVMGA', 'MPATAVAHR', 'MHWNAATYSDVHRYRKTNYTFAFYKWSLNGLR', 'MPRPGIYLRLPAQNSTSWGPRIGMILVVAMRVNVENVKRSRSIRIGSTSWSSGTDLLVRVVLVAFDRNVS', 'MTSSFAQGAANRCPVLAFIPS', 'MRAGWTVDGDRLPNGTPVPQPLG', 'MVLEWIALN', 'MCIDTVRPITRLRFINGP', 'MGRTIRPFIATGNRLISNGVCGTL', 'MNAKTGHADADLGPRTTHDLNKQSFFDQLVID', 'MGTRCVT', 'MGTGSRMGLPYPSLLGN','MHASRMDRGWGPAPEWDSRTPASWVTETDVVPVP', 'MHVTETIDEAANLV', 'MATTKIIPILGPHDVEFCAGSRK','MQIWVQERLMILISNPFSTNW', 'MGAH', 'MA', 'MILISNPFSTNW', 'MSQKRSMRQPI', 'MFDWYAWILLRLCPLVIISTR', 'MRQPI', 'MPPPIVMCIDTVRPITRLRFINGP', 'MR', 'MILVVAMRVNVENVKRSRSIRIGSTSWSSGTDLLVRVVLVAFDRNVS', 'MPRPGMLMQIWVQERLMILISNPFSTNW', 'MDCVKLDWLPHRSFL']

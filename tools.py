@@ -20,7 +20,6 @@ def fasta_to_sequence (fasta_string):
 	#string should have > characters with following name. Check only > character
 	if '>' not in fasta_string: raise InvalidFastaFormatError
 	# Cut names of fasta format and merge the rest of the sequence in one string
-	
 	result_s = ""
 	n = fasta_string.find('>')
 	while (n < len (fasta_string)):
@@ -28,8 +27,7 @@ def fasta_to_sequence (fasta_string):
 		next_name = fasta_string[end_name:].find ('>')
 		if next_name == -1: n = len(fasta_string)
 		else: n = next_name
-		result_s += fasta_string[end_name:n].replace("\n", "")
-		
+		result_s += fasta_string[end_name:n].replace("\n", "")		
 	return result_s
 		
 def convert_array_to_string (array, sep):

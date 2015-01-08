@@ -67,30 +67,9 @@ def get_orf (RNA):
 	for codon in start_codons:
 		next_stop = find_next_stop_codon (RNA[codon:])
 		if not next_stop:
-			if len(result) == 0: raise aa.NoStopCodonError
-			else: break
+			if len(result) == 0: raise aa.NoStopCodonError #Exit of no stop-codon in the whole sequence
+			else: break #Exit if no more codons around
 			
 		result.append ([codon, codon + next_stop])
 	return result
-	
-	# start_codon = RNA.find(START_CODON)
-	# if start_codon == -1: return result
-
-	# frame = [start_codon]
-	# id = start_codon
-	# while id < len(RNA):
-		# stop = find_next_stop_codon(RNA[id:])
-		# if not stop:
-			# if len(result) == 0: raise aa.NoStopCodonError #Exit of no stop-codon in the whole sequence
-			# else: break #Exit with already one result
-		# frame.append(stop + id)
-		# result.append(frame)
-
-		# #Next iteration
-		# start_codon = RNA[id+1:].find(START_CODON)
-		# if start_codon == -1: break #Exit if no more codons around
-
-		# frame = [start_codon+id+1]
-		# id = frame[0]
-	# return result
 	
