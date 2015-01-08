@@ -75,6 +75,33 @@ class FastaTest (unittest.TestCase):
 		second_res = TEST_FASTA_STRING_R
 		self.assertEqual (second_res, tools.fasta_to_sequence(second_test))
 	# -------------------------
+	# FASTA to collection of strings
+	def testFastaFormatCollectionFailed (self):
+		""" Work only with fasta format string """
+		self.assertRaises (tools.InvalidFastaFormatError, tools.fasta_to_collection, 'just a string')
+		
+	def testFastaRightCollectionSize (self):
+		""" The length of the collection should be correct """
+		fasta_string = ">Rosalind_1\nGATTACA\n>Rosalind_2\nTAGACCA\n>Rosalind_3\nATACA"
+		self.assertEqual (len(tools.fasta_to_collection(fasta_string)), 3)
+		
+	def testFastaCollectionNames (self):
+		""" keys of the dictionary should be correct """
+		fasta_string = ">Rosalind_1\nGATTACA\n>Rosalind_2\nTAGACCA\n>Rosalind_3\nATACA"
+		names = ["Rosalind_1", "Rosalind_2", "Rosalind_3"]
+		r = tools.fasta_to_collection(fasta_string)
+		for n in names:
+			self.assertIn (n, r)
+			
+	def testFastaCollectionValues (self):
+		""" values in the dictionary should be correct """
+		fasta_string = ">Rosalind_1\nGATTACA\n>Rosalind_2\nTAGACCA\n>Rosalind_3\nATACA"
+		names = ["Rosalind_1", "Rosalind_2", "Rosalind_3"]
+		values = ['GATTACA', 'TAGACCA', 'ATACA']
+		r = tools.fasta_to_collection(fasta_string)
+		for v in values:
+			self.assertIn (v, r.values())
+	# --------------------------
 
 class ReturnPeptideTest (unittest.TestCase):
 	""" Checked rna to peptide transformation """		
@@ -192,7 +219,16 @@ class ORF_TestCase (unittest.TestCase):
 		this_result = Counter(res)
 		for r in this_result:
 			self.assertEqual(1, this_result[r])
+
+class SharedMotifCase (unittest.TestCase):
+	def testKnownResult (self):
+		""" Should work with Sample Dataset from Rosalind """
+		# at first, and with big dataset afterwords
+		pass
 		
+	def testFileExistFailed (self):
+		""" File should exist """
+		self.assertRaises (tools.InvalidFileLocationError, tasks.FSH, 'not a place')	
 		
 if __name__  == "__main__":
 	unittest.main()

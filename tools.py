@@ -29,7 +29,14 @@ def fasta_to_sequence (fasta_string):
 		else: n = next_name
 		result_s += fasta_string[end_name:n].replace("\n", "")		
 	return result_s
-		
+
+def fasta_to_collection (fasta_string):
+	""" Return dictionary with keys=identificators of fasta string, value=correspondent sequence"""
+	if '>' not in fasta_string: raise InvalidFastaFormatError
+	result = {}
+	
+	return result
+	
 def convert_array_to_string (array, sep):
 	""" Convert given array to the string, where elements of array separates by sep """
 	return sep.join(str(element) for element in array)
