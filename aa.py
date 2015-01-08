@@ -59,42 +59,6 @@ def return_peptide (RNA):
 	
 	return peptide
 
-def find_next_stop_codon (RNA):
-	""" Codon (+3) dependant """
-	dna.isNucleotide(RNA)
-	id = 0
-	while id < len(RNA):
-		tRNA = RNA[id:id+3]
-		if not tRNA in RNA_code: return False
-		if RNA_code[tRNA] == False:
-			return id
-		id+= 3
-	return False
-
-def get_orf (RNA):
-	""" Return array with indexes of open frames """
-	result = []
-	start_codon = RNA.find(START_CODON)
-	if start_codon == -1: return result
-
-	frame = [start_codon]
-	id = start_codon
-	while id < len(RNA):
-		stop = find_next_stop_codon(RNA[id:])
-		if not stop:
-			if len(result) == 0: raise NoStopCodonError #Exit of no stop-codon in the whole sequence
-			else: break #Exit with already one result
-		frame.append(stop + id)
-		result.append(frame)
-
-		#Next iteration
-		start_codon = RNA[id+1:].find(START_CODON)
-		if start_codon == -1: break #Exit if no more codons around
-
-		frame = [start_codon+id+1]
-		id = frame[0]
-	return result
-
 
 
 def translation (RNA):
@@ -104,7 +68,7 @@ def translation (RNA):
 	dna.isNucleotide(RNA)
 	if "T" in RNA: raise dna.InvalidSequenceError
 
-	orf = get_orf(RNA)
+	orf = dna.get_orf(RNA)
 
 	for frame in orf:
 		peptide = return_peptide(RNA[frame[0]:frame[1]+3])
