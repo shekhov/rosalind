@@ -31,4 +31,6 @@ def FSH (fasta_file_loc):
 		run:
 	"""
 	result = ''
+	DNA = tools.fasta_to_collection (tools.file_to_string (fasta_file_loc))
+	
 	return result
