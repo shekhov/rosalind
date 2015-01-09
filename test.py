@@ -260,6 +260,21 @@ class SharedMotifCase (unittest.TestCase):
 class SharedMotifTimeCase (TimeTestCase):
 	""" Checking the timing for each method """
 	# Put method in the order from bottom 
+	# def testMotifDictionaryTime (self):
+		# st = tools.file_to_string ("test_files/rosalind_lcsm.txt")
+		# d = tools.fasta_to_collection (st)
+		# #s = dna.getSetOfMotifs (list (d.values())[0])
+		# r = dna.findSimilarMotif (list (d.values())[:5])
+		
+	def testMotifDictPercTime (self):
+		st = tools.file_to_string ("test_files/rosalind_lcsm.txt")
+		d = tools.fasta_to_collection (st)
+		#s = dna.getSetOfMotifs (list (d.values())[0])
+		for n in range (4):
+			cut = n * 5
+			print ("\nTest cutting %.i percent from minimum" % (cut))
+			r = dna.findSimilarMotif (list (d.values())[:5], cut)		
+	
 	def testMotifFromStringTime (self):
 		""" How long it takes to create on set of motifs """
 		st = tools.file_to_string ("test_files/rosalind_lcsm.txt")

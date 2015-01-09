@@ -52,9 +52,10 @@ def fasta_to_collection (fasta_string):
 	return result
 	
 def getLongestKey (dic):
+	""" Return the longest key in the dictionary """
 	max = 0
 	st = ''
-	for v in dic.values():
+	for v in dic.keys():
 		if len(v) > max:
 			max = len(v)
 			st = v

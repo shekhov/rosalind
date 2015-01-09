@@ -4,6 +4,7 @@ import copy
 import aa
 from aa import RNA_code
 from aa import START_CODON
+import tools
 
 class DNA_Error (Exception): pass
 class InvalidCharacterError (DNA_Error): pass
@@ -73,29 +74,46 @@ def get_orf (RNA):
 		result.append ([codon, codon + next_stop])
 	return result
 	
-def getSetOfMotifs (sequence):
+def getSetOfMotifs (sequence, minL=None, maxL=None):
 	""" Return the list of all posible motifs from given sequence """
+	if maxL is None: maxL = len(sequence)-1
+	if minL is None: minL = 1
+	
+	thisMax = 0	
 	motifs = set()
-	for n in range (len(sequence)): 
-		l = n+1 # lenght of the motif
-		for t in range (len(sequence)-1):
-			m = sequence[t: t+l]
+	
+	for n in range (len(sequence)):		
+		if maxL > n: thisMax = n
+		else: thisMax = maxL
+		
+		for l in range (minL, thisMax):
+			m = sequence [n-l:n]
 			motifs.add(m)
+
 	return motifs
 	
-def findSimilarMotif (array):
+def findSimilarMotif (array, percCut=None):
 	""" Return dictionary with only motifs that are present in all strings """
+	# percCut is responsible for what percent of minimum motif length we should cut off 
+	if percCut is None: percCut = 0
+		
 	result = {}
 	# Initializative filling 
 	start_set = getSetOfMotifs (array[0])
 	for each in start_set:
 		result[each] = True
-		
+	
+	maxMotifL = 0		
 	for s in array[1:]:
-		this_set = getSetOfMotifs(s)
-		for motif in copy.copy(result):
+		this_set = getSetOfMotifs(s, minL = int(maxMotifL*percCut*0.01))
+		old_res = copy.copy(result)
+
+		for motif in old_res:
 			if motif not in this_set:
 				del result[motif]
+				
+		maxMotifL = len(tools.getLongestKey(result))		
+		print ("%i -> %i maxL: %i" % (len(old_res), len(result), maxMotifL))	
 				
 	return result
 	
