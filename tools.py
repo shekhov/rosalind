@@ -52,7 +52,13 @@ def fasta_to_collection (fasta_string):
 	return result
 	
 def getLongestKey (dic):
-	return max(dic)
+	max = 0
+	st = ''
+	for v in dic.values():
+		if len(v) > max:
+			max = len(v)
+			st = v
+	return st		
 		
 	
 def convert_array_to_string (array, sep):
