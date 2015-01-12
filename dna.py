@@ -121,7 +121,7 @@ def findSimilarMotif (array):
 		found = False
 		while (True): # Goes through dictionary until we meet element that presents in next string
 			this_max = max(dic) # Take the maximum index from deleted dictionary
-			next_motif = getSetOfMotifs (s, this_max, this_max+1) # Search for this index in the string
+			next_motif = getSetOfMotifs (s, this_max, this_max) # Search for this index in the string
 			if len (next_motif) == 0: # If nothing in the next string with this length, go again with next lenght
 				del (dic[this_max])
 				continue
@@ -134,10 +134,6 @@ def findSimilarMotif (array):
 					found = True# IF MATCH, then job for this iteration is done, and we can go for another sequence
 			if found: break	
 			if len (dic) == 0: break
-
-				
-	#final = dic
-	#print ("%i elements -> max: %i" % (len (final), len (final[max(final)])))
 	return dic
 
 def getLongestMotifs (dic):

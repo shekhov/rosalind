@@ -262,9 +262,12 @@ class SharedMotifCase (unittest.TestCase):
 		""" File should exist """
 		self.assertRaises (tools.InvalidFileLocationError, tasks.FSH, 'not a place')	
 		
-	def testFindSimilarMotif (self):
-		""" Create the dictionary with all shared motifs in the given strings """
-		pass
+	def testRealSample (self):
+		""" Should return the correct answer """
+		r = 'CGTTGATGCGTTATTAAGAAAGAGATTTCATGACCCCTCTACTATC'
+		s = 'test_files/rosalind_lcsm_2.txt'
+		thisR = dna.getLongestMotifs (dna.findSimilarMotif(list(tools.fasta_to_collection(tools.file_to_string(s)).values())))
+		self.assertEqual (r, thisR[0])
 		
 	def testReturnArrayWithOneLenght (self):
 		""" The result should be an array with all elements of the similar length """
