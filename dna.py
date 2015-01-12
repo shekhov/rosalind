@@ -82,7 +82,7 @@ def getSetOfMotifs (sequence, minL=None, maxL=None):
 	thisMax = 0	
 	motifs = set()
 	
-	for n in range (len(sequence)):		
+	for n in range (minL-1, len(sequence)):		
 		if maxL > n: thisMax = n
 		else: thisMax = maxL
 		
@@ -92,28 +92,45 @@ def getSetOfMotifs (sequence, minL=None, maxL=None):
 
 	return motifs
 	
-def findSimilarMotif (array, percCut=None):
+def findSimilarMotif (array):
 	""" Return dictionary with only motifs that are present in all strings """
 	# percCut is responsible for what percent of minimum motif length we should cut off 
-	if percCut is None: percCut = 0
-		
-	result = {}
-	# Initializative filling 
-	start_set = getSetOfMotifs (array[0])
-	for each in start_set:
-		result[each] = True
+	#if percCut is None: percCut = 0
+	#result = {}
+	init_motif = getSetOfMotifs (array[0])
 	
-	maxMotifL = 0		
-	for s in array[1:]:
-		this_set = getSetOfMotifs(s, minL = int(maxMotifL*percCut*0.01))
-		old_res = copy.copy(result)
-
-		for motif in old_res:
-			if motif not in this_set:
-				del result[motif]
+	dic = {}
+	#result = {}
+	for motif in init_motif:
+		#result[motif] = True
+		l = len(motif)
+		if l in dic: dic[l][motif] = True
+		else: dic[l] = {}; dic[l][motif] = True
+		
+	#print (dic[max(dic) - 1])	
+	
+	for s in array[1:]: # For all given strings
+		c = copy.deepcopy (dic) # Make copy for allowing righting in original dictionary
+		found = False
+		while (True): # Goes through dictionary until we meet element that presents in next string
+			this_max = max(dic) # Take the maximum index from deleted dictionary
+			next_motif = getSetOfMotifs (s, this_max, this_max+1) # Search for this index in the string
+			if len (next_motif) == 0: # If nothing in the next string with this length, go again with next lenght
+				del (dic[this_max])
+				continue
+			
+			for el in c[this_max]: # In the array search for equal element in motifs
+				if el not in next_motif: # If in the next motif there is no such element
+					del (dic[this_max][el]) # delete this element from dictionary for the next simplifying
+					if (len (dic[this_max]) == 0): del(dic[this_max])
+				else: 
+					found = True# IF MATCH, then job for this iteration is done, and we can go for another sequence
+			if found: break	
+			if len (dic) == 0: break
 				
-		maxMotifL = len(tools.getLongestKey(result))		
-		print ("%i -> %i maxL: %i" % (len(old_res), len(result), maxMotifL))	
-				
-	return result
+	final = dic
+	print ("%i elements -> max: %i" % (len (final), len (final[max(final)])))
+	return final
+	
+	
 	
