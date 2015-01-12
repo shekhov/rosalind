@@ -240,10 +240,23 @@ class SharedMotifCase (unittest.TestCase):
 		
 	def testMotifsFromSequence (self):
 		""" Should return corect items from the string """
-		known_r = ['AT', 'ATC', 'ATCA', 'TC', 'TCA', 'CA']
-		res = dna.getSetOfMotifs ('ATCA')
+		#print ("Search (1-4)n motifs")
+		known_r = ['AT', 'ATC', 'ATCG', 'TC', 'TCG', 'CG', 'A', 'T', 'G', 'C']
+		res = dna.getSetOfMotifs ('ATCG')
+		self.assertEqual (len (known_r), len(res))
 		for r in known_r:
-			self.assertIn (r, res)	
+			self.assertIn (r, res)
+			
+		#print ("Search (2, 2)n motifs")		
+		res2 = dna.getSetOfMotifs('ATCG', minL=2, maxL=2)
+		self.assertEqual (3, len(res2))
+		for r in ['AT', 'TC', 'CG']:
+			self.assertIn (r, res2)
+			
+		#print ("Search (4, 4)n motifs")
+		res3 = dna.getSetOfMotifs ('ATCG', minL=4, maxL=4)
+		self.assertEqual (1, len(res3))
+		self.assertIn ('ATCG', res3)
 		
 	def testFileExistFailed (self):
 		""" File should exist """
@@ -253,6 +266,15 @@ class SharedMotifCase (unittest.TestCase):
 		""" Create the dictionary with all shared motifs in the given strings """
 		pass
 		
+	def testReturnArrayWithOneLenght (self):
+		""" The result should be an array with all elements of the similar length """
+		r = dna.findSimilarMotif (self.easy_test_set)
+		final = dna.getLongestMotifs (r)
+		l = len (final[0])
+		for f in final:
+			self.assertEqual (len(f), l)
+			
+	@unittest.skip	
 	def testChooseBigestMotif (self):
 		""" Should return any of the bigest motifs"""
 		self.assertEqual (len(tools.getLongestKey(dna.findSimilarMotif(self.easy_test_set))), 2)
@@ -264,7 +286,7 @@ class SharedMotifTimeCase (TimeTestCase):
 		st = tools.file_to_string ("test_files/rosalind_lcsm.txt")
 		d = tools.fasta_to_collection (st)
 		#s = dna.getSetOfMotifs (list (d.values())[0])
-		r = dna.findSimilarMotif (list (d.values()))
+		r = dna.findSimilarMotif (list (d.values())[:3])
 		
 	def testFullSetTime (self):
 		st = tools.file_to_string ("test_files/rosalind_lcsm.txt")

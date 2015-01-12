@@ -30,7 +30,12 @@ def FSH (fasta_file_loc):
 		http://rosalind.info/problems/lcsm/
 		run:
 	"""
-	result = ''
+	#result = ''
 	DNA = tools.fasta_to_collection (tools.file_to_string (fasta_file_loc))
+	dna_arr = list (DNA.values())
+	#for d in dna_arr:
+	#	dna.isNucleotide(d)
+	result = dna.findSimilarMotif (dna_arr)
+	return getLongestMotifs(result)
 	
-	return result
+	#return result

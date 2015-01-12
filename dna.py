@@ -75,39 +75,46 @@ def get_orf (RNA):
 	return result
 	
 def getSetOfMotifs (sequence, minL=None, maxL=None):
-	""" Return the list of all posible motifs from given sequence """
-	if maxL is None: maxL = len(sequence)-1
+	""" Return the list of all posible motifs from given sequence """	
+	if maxL is None: maxL = len(sequence)
 	if minL is None: minL = 1
+		
+	#print ("Search from %i to %i lenght" % (minL, maxL))
 	
 	thisMax = 0	
 	motifs = set()
 	
-	for n in range (minL-1, len(sequence)):		
-		if maxL > n: thisMax = n
+	for n in range (minL-1, len (sequence)):
+		if maxL >= n: thisMax = n+1
 		else: thisMax = maxL
 		
-		for l in range (minL, thisMax):
-			m = sequence [n-l:n]
+		for l in range (minL-1, maxL): # Length 
+			m = sequence [n-l: n+1]
+			if (len(m))==0:continue
+			#print ("n = %i, max = %i, l=%i, m = %s" % (n, thisMax, l, m))
 			motifs.add(m)
+	
+	# for n in range (minL-1, len(sequence)):		
+		# if maxL > n: thisMax = n+1
+		# else: thisMax = maxL
+		
+		# for l in range (minL, thisMax):
+			# m = sequence [n-l:n]
+			# motifs.add(m)
 
 	return motifs
 	
 def findSimilarMotif (array):
 	""" Return dictionary with only motifs that are present in all strings """
-	# percCut is responsible for what percent of minimum motif length we should cut off 
-	#if percCut is None: percCut = 0
-	#result = {}
 	init_motif = getSetOfMotifs (array[0])
 	
 	dic = {}
-	#result = {}
 	for motif in init_motif:
 		#result[motif] = True
 		l = len(motif)
 		if l in dic: dic[l][motif] = True
 		else: dic[l] = {}; dic[l][motif] = True
 		
-	#print (dic[max(dic) - 1])	
 	
 	for s in array[1:]: # For all given strings
 		c = copy.deepcopy (dic) # Make copy for allowing righting in original dictionary
@@ -127,10 +134,15 @@ def findSimilarMotif (array):
 					found = True# IF MATCH, then job for this iteration is done, and we can go for another sequence
 			if found: break	
 			if len (dic) == 0: break
+
 				
-	final = dic
-	print ("%i elements -> max: %i" % (len (final), len (final[max(final)])))
-	return final
-	
-	
+	#final = dic
+	#print ("%i elements -> max: %i" % (len (final), len (final[max(final)])))
+	return dic
+
+def getLongestMotifs (dic):
+	""" arg: dic is a dictionary with key=length of elements in the values """
+	maxKey = max(dic)
+	keys = list (dic[maxKey].keys())
+	return keys	
 	
