@@ -1,4 +1,5 @@
 """ DNA module. Library to work with DNA sequence """
+import string as str
 import re
 import copy
 import aa
